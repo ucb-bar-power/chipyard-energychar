@@ -1,0 +1,33 @@
+# Generate Make include to aid in flow
+vlsi.core.build_system: make
+
+# Select tools
+vlsi.core.synthesis_tool: "hammer.synthesis.genus"
+vlsi.core.par_tool: "hammer.par.innovus"
+vlsi.core.sim_tool: "hammer.sim.vcs"
+
+vlsi.core.timing_tool: "hammer.timing.tempus"
+vlsi.core.formal_tool: "hammer.formal.conformal"
+vlsi.core.power_tool: "hammer.power.joules"
+vlsi.core.drc_tool: "hammer.drc.calibre"
+vlsi.core.lvs_tool: "hammer.lvs.calibre"
+
+# Technology settings
+vlsi.core.technology: "hammer.technology.sky130"
+vlsi.core.sram_generator_tool: "hammer.technology.sky130.sram_compiler"
+
+sim.inputs:
+  timescale: "1ns/10ps"
+  defines: [
+    "N_CYCLES=100",
+    "FUNCTIONAL",
+    "UNIT_DELAY=#1",
+    "USE_POWER_PINS"
+    ]
+  defines_meta: 'append'
+  saif.mode: 'none'
+  options:
+    - "-notice"
+    - "-line"
+    - "+warn=none"
+    - "+lint=none"
