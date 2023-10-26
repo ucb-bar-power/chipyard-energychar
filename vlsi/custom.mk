@@ -5,10 +5,11 @@ vlsi_dir=$(abspath .)
 tech_name          = sky130
 INPUT_CONFS        = $(vlsi_dir)/custom.yml $(extra)
 ENV_YML            = $(vlsi_dir)/custom-env.yml
-HAMMER_EXTRA_ARGS ?= -p $(vlsi_dir)/custom.yml $(extra)
 
 HAMMER_EXTRA_ARGS   ?= $(foreach conf, $(INPUT_CONFS), -p $(conf)) $(args)
 
 BINARY 				?= ${RISCV}/riscv64-unknown-elf/share/riscv-tests/benchmarks/towers.riscv
 
-USE_FSDB  		   = 1
+USE_FSDB  		   	= 1
+
+configs				?= EnergyCharRocketConfig

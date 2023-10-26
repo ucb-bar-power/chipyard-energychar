@@ -2,20 +2,22 @@
 vlsi.core.build_system: make
 
 # Select tools
+vlsi.core.sim_tool: "hammer.sim.vcs"
+vlsi.core.power_tool: "hammer.power.joules"
 vlsi.core.synthesis_tool: "hammer.synthesis.genus"
 vlsi.core.par_tool: "hammer.par.innovus"
-vlsi.core.sim_tool: "hammer.sim.vcs"
 
-vlsi.core.timing_tool: "hammer.timing.tempus"
-vlsi.core.formal_tool: "hammer.formal.conformal"
-vlsi.core.power_tool: "hammer.power.joules"
-vlsi.core.drc_tool: "hammer.drc.calibre"
-vlsi.core.lvs_tool: "hammer.lvs.calibre"
 
 # Technology settings
 vlsi.core.technology: "hammer.technology.sky130"
 vlsi.core.sram_generator_tool: "hammer.technology.sky130.sram_compiler"
 
+# Clock
+vlsi.inputs.clocks: [
+  {name: clock_uncore_clock, period: 4.0ns, uncertainty: 0.1ns}
+]
+
+# Simulation Settings
 sim.inputs:
   timescale: "1ns/10ps"
   defines: [
