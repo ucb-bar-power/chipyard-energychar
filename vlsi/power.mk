@@ -12,19 +12,19 @@ $(POWER_CONF): $(VLSI_RTL) check-binary
 	echo "  top_module: $(VLSI_TOP)" >> $@
 	echo "  tb_name: TestDriver" >> $@
 	echo "  tb_dut: 'testHarness/$(VLSI_MODEL_DUT_NAME)'" >> $@
-ifneq ($(BINARY), )
-	echo "  waveforms: [" >> $@
-ifndef USE_VPD
-	echo "    '$(call get_sim_out_name,$(BINARY)).fsdb'" >> $@
-else
-	echo "    '$(call get_sim_out_name,$(BINARY)).vpd'" >> $@
-endif
-	echo "  ]" >> $@
-endif
-	echo "  start_times: ['0ns']" >> $@
-	echo "  end_times: [" >> $@
-	echo "    '`bc <<< $(timeout_cycles)*$(CLOCK_PERIOD)`ns'" >> $@
-	echo "  ]" >> $@
+# ifneq ($(BINARY), )
+# 	echo "  waveforms: [" >> $@
+# ifndef USE_VPD
+# 	echo "    '$(call get_sim_out_name,$(BINARY)).fsdb'" >> $@
+# else
+# 	echo "    '$(call get_sim_out_name,$(BINARY)).vpd'" >> $@
+# endif
+# 	echo "  ]" >> $@
+# endif
+# 	echo "  start_times: ['0ns']" >> $@
+# 	echo "  end_times: [" >> $@
+# 	echo "    '`bc <<< $(timeout_cycles)*$(CLOCK_PERIOD)`ns'" >> $@
+# 	echo "  ]" >> $@
 
 $(POWER_RTL_CONF): $(VLSI_RTL)
 	echo "vlsi.core.power_tool: hammer.power.joules" > $@

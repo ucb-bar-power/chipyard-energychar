@@ -12,4 +12,10 @@ BINARY 				?= ${RISCV}/riscv64-unknown-elf/share/riscv-tests/benchmarks/towers.r
 
 USE_FSDB  		   	= 1
 
-configs				?= EnergyCharRocketConfig
+CONFIG				?= EnergyCharRocketConfig
+
+sim ?= $(OBJ_DIR)/sim-rtl-rundir/simv
+binary_name := $(notdir $(basename $(BINARY)))
+
+sim-out:
+	set -o pipefail &&  $(sim) +permissive +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles)  +ntb_random_seed_automatic +verbose +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(output_dir)/$(binary_name).out) | tee $(output_dir)/$(binary_name).log

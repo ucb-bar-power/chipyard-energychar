@@ -16,6 +16,10 @@ include $(vlsi_dir)/custom.mk
 include $(vlsi_dir)/tutorial.mk
 include $(base_dir)/variables.mk
 
+# increase these since we're running long workloads
+#timeout_cycles = 100000000000
+#bmark_timeout_cycles = 1000000000000
+
 #########################################################################################
 # vlsi types and rules
 #########################################################################################
