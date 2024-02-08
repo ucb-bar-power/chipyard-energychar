@@ -19,17 +19,37 @@ import freechips.rocketchip.subsystem._
 import shuttle.common._
 // import chisel3._
 
+// for TileFragments
+import freechips.rocketchip.tile._
+import freechips.rocketchip.subsystem._
+import freechips.rocketchip.rocket.{RocketCoreParams, MulDivParams, DCacheParams, ICacheParams}
+
+import boom.common.{BoomTileAttachParams}
+import cva6.{CVA6TileAttachParams}
+import testchipip._
+
+
 
 // --------------
 // Rocket Configs
+// based on RocketConfigs.scala
 // --------------
+
+class EnergyCharRocketConfigCG extends Config(
+  new WithClockGating ++ 
+  new WithNEnergyCharCores(1) ++         // single rocket-core
+  new chipyard.config.WithTileFrequency(76.92) ++    // 13ns period --> 77 MHz freq
+  new chipyard.config.WithSystemBusFrequency(76.92) ++   
+  new chipyard.config.WithMemoryBusFrequency(76.92) ++   
+  new chipyard.config.WithPeripheryBusFrequency(76.92) ++
+  new chipyard.config.AbstractConfig)
 
 class EnergyCharRocketConfig extends Config(
   new WithNEnergyCharCores(1) ++         // single rocket-core
-  new chipyard.config.WithTileFrequency(250.0) ++    // 4ns period --> 250 MHz freq
-  new chipyard.config.WithSystemBusFrequency(250.0) ++   
-  new chipyard.config.WithMemoryBusFrequency(250.0) ++   
-  new chipyard.config.WithPeripheryBusFrequency(250.0) ++
+  new chipyard.config.WithTileFrequency(76.92) ++    // 13ns period --> 77 MHz freq
+  new chipyard.config.WithSystemBusFrequency(76.92) ++   
+  new chipyard.config.WithMemoryBusFrequency(76.92) ++   
+  new chipyard.config.WithPeripheryBusFrequency(76.92) ++
   new chipyard.config.AbstractConfig)
 
 class WithNEnergyCharCores(
@@ -42,11 +62,13 @@ class WithNEnergyCharCores(
     val idOffset = overrideIdOffset.getOrElse(prev.size)
     val big = RocketTileParams(
       core   = RocketCoreParams(
+        useVM = false,
         mulDiv = Some(MulDivParams(
           mulUnroll = 8,
           mulEarlyOut = true,
           divEarlyOut = true)
         )),
+      btb = None,
       dcache = Some(DCacheParams(
         rowBits = site(SystemBusKey).beatBits,
         nMSHRs = 0,
@@ -61,8 +83,24 @@ class WithNEnergyCharCores(
   }
 })
 
+// --------------
+// CVA6 Configs
+// based on CVA6Configs.scala
+// --------------
+
+class EnergyCharCVA6Config extends Config(
+  new cva6.WithNCVA6Cores(1) ++                    // single CVA6 core
+  new chipyard.config.WithTileFrequency(76.92) ++    // 13ns period --> 77 MHz freq
+  new chipyard.config.WithSystemBusFrequency(76.92) ++   // TODO: check what a synthesizable clock frequency is for CVA6!!
+  new chipyard.config.WithMemoryBusFrequency(76.92) ++   
+  new chipyard.config.WithPeripheryBusFrequency(76.92) ++
+  new chipyard.config.AbstractConfig)
+
+
+
 // ---------------
 // Shuttle Configs
+// based on ShuttleConfigs.scala
 // ---------------
 
 
@@ -96,4 +134,22 @@ class WithNEnergyCharShuttleCores(n: Int = 1, retireWidth: Int = 2, overrideIdOf
       } ++ prev
     }
     case XLen => 64
+})
+
+
+
+
+// --------------
+// Tile Fragments
+// based on fragments/TileFragments.scala
+// --------------
+
+class WithClockGating extends Config((site, here, up) => {
+  case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
+    case tp: RocketTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
+      core = tp.tileParams.core.copy(clockGate = true)))
+    case tp: BoomTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
+      core = tp.tileParams.core.copy(clockGate = true)))
+    case other => other
+  }
 })
