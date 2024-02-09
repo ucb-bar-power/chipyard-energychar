@@ -2,7 +2,7 @@ extra               ?=  # extra configs
 args                ?=  # command-line args (including step flow control)
 
 vlsi_dir=$(abspath .)
-tech_name          = sky130
+tech_name          = intech22
 INPUT_CONFS        = $(vlsi_dir)/custom.yml $(extra)
 ENV_YML            = $(vlsi_dir)/custom-env.yml
 
@@ -21,7 +21,7 @@ binary_name := $(notdir $(basename $(BINARY)))
 OUTFILE ?= $(output_dir)/$(binary_name).out
 
 sim-rtl-out:
-	set -o pipefail &&  $(sim) +permissive +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles)  +ntb_random_seed_automatic +verbose +loadmem=$(BINARY) +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
+	set -o pipefail &&  $(sim) +permissive +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles)  +ntb_random_seed_automatic +verbose +loadmem=$(BINARY) +shuttle_pipe_prints +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
 
 sim-rtl-debug-out:
-	set -o pipefail &&  $(sim) +permissive +verbose $(call get_waveform_flag,$(call get_sim_out_name,$(BINARY))) +loadmem=$(BINARY) +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles) +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
+	set -o pipefail &&  $(sim) +permissive +verbose $(call get_waveform_flag,$(call get_sim_out_name,$(BINARY))) +loadmem=$(BINARY) +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles) +shuttle_pipe_prints +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
