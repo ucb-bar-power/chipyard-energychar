@@ -28,3 +28,4 @@ project/project/
 .sbt
 .classpath_cache/
 .vscode/
+*.v

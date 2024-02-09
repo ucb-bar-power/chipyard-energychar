@@ -38,18 +38,18 @@ import testchipip._
 class EnergyCharRocketConfigCG extends Config(
   new WithClockGating ++ 
   new WithNEnergyCharCores(1) ++         // single rocket-core
-  new chipyard.config.WithTileFrequency(76.92) ++    // 13ns period --> 77 MHz freq
-  new chipyard.config.WithSystemBusFrequency(76.92) ++   
-  new chipyard.config.WithMemoryBusFrequency(76.92) ++   
-  new chipyard.config.WithPeripheryBusFrequency(76.92) ++
+  new chipyard.config.WithTileFrequency(66.66666666667) ++              // 15ns period --> 67 MHz freq
+  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++         // include many digits so that 1/f rounds to exactly 15.0ns
+  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++   
+  new chipyard.config.WithPeripheryBusFrequency(66.66666666667) ++
   new chipyard.config.AbstractConfig)
 
 class EnergyCharRocketConfig extends Config(
   new WithNEnergyCharCores(1) ++         // single rocket-core
-  new chipyard.config.WithTileFrequency(76.92) ++    // 13ns period --> 77 MHz freq
-  new chipyard.config.WithSystemBusFrequency(76.92) ++   
-  new chipyard.config.WithMemoryBusFrequency(76.92) ++   
-  new chipyard.config.WithPeripheryBusFrequency(76.92) ++
+  new chipyard.config.WithTileFrequency(66.66666666667) ++  
+  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++   
+  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++   
+  new chipyard.config.WithPeripheryBusFrequency(66.66666666667) ++
   new chipyard.config.AbstractConfig)
 
 class WithNEnergyCharCores(
@@ -90,10 +90,10 @@ class WithNEnergyCharCores(
 
 class EnergyCharCVA6Config extends Config(
   new cva6.WithNCVA6Cores(1) ++                    // single CVA6 core
-  new chipyard.config.WithTileFrequency(76.92) ++    // 13ns period --> 77 MHz freq
-  new chipyard.config.WithSystemBusFrequency(76.92) ++   // TODO: check what a synthesizable clock frequency is for CVA6!!
-  new chipyard.config.WithMemoryBusFrequency(76.92) ++   
-  new chipyard.config.WithPeripheryBusFrequency(76.92) ++
+  new chipyard.config.WithTileFrequency(66.66666666667) ++    // 13ns period --> 77 MHz freq
+  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++   // TODO: check what a synthesizable clock frequency is for CVA6!!
+  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++   
+  new chipyard.config.WithPeripheryBusFrequency(66.66666666667) ++
   new chipyard.config.AbstractConfig)
 
 

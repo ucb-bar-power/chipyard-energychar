@@ -1,6 +1,8 @@
 # Generate Make include to aid in flow
 vlsi.core.build_system: make
 
+vlsi.core.max_threads: 8
+
 vlsi.inputs.power_spec_type: "cpf"
 vlsi.inputs.power_spec_mode: "auto"
 
@@ -17,7 +19,7 @@ vlsi.core.sram_generator_tool: "hammer.technology.sky130.sram_compiler"
 
 # Clock
 vlsi.inputs.clocks: [
-  {name: clock_uncore_clock, period: 13ns, uncertainty: 0.1ns}
+  {name: clock_uncore_clock, period: 15ns, uncertainty: 1ns}
 ]
 
 # Simulation Settings
