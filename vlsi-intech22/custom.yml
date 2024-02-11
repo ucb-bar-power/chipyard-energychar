@@ -26,6 +26,15 @@ vlsi.inputs.clocks: [
 sim.inputs:
   timescale: "1ns/10ps"
   saif.mode: 'none'
+  defines: [
+    "INTCNOPWR",
+    "INTC_NO_PWR_PINS",
+    "INTC_EMULATION",
+    "INTEL_NO_PWR_PINS",
+    "INTEL_EMULATION",
+    "INTC_FUNCTIONAL",
+    ]
+  defines_meta: 'append'
   options:
     - "-notice"
     - "-line"

@@ -37,18 +37,18 @@ import testchipip._
 
 class EnergyCharRocketConfigCG extends Config(
   new WithClockGating ++ 
-  new WithNEnergyCharCores(1) ++         // single rocket-core
+  new WithNEnergyCharCores(1) ++                                        // single rocket-core
   new chipyard.config.WithTileFrequency(66.66666666667) ++              // 15ns period --> 67 MHz freq
-  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++         // include many digits so that 1/f rounds to exactly 15.0ns
-  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++   
+  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++         //    include many digits so that 1/f rounds to exactly 15.0ns
+  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++
   new chipyard.config.WithPeripheryBusFrequency(66.66666666667) ++
   new chipyard.config.AbstractConfig)
 
 class EnergyCharRocketConfig extends Config(
   new WithNEnergyCharCores(1) ++         // single rocket-core
-  new chipyard.config.WithTileFrequency(66.66666666667) ++  
-  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++   
-  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++   
+  new chipyard.config.WithTileFrequency(66.66666666667) ++
+  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++
+  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++
   new chipyard.config.WithPeripheryBusFrequency(66.66666666667) ++
   new chipyard.config.AbstractConfig)
 
@@ -105,7 +105,11 @@ class EnergyCharCVA6Config extends Config(
 
 
 class EnergyCharShuttleConfig extends Config(
-  new WithNEnergyCharShuttleCores ++                        // 1x dual-issue shuttle core
+  new WithNEnergyCharShuttleCores ++                          // 1x dual-issue shuttle core
+  new chipyard.config.WithTileFrequency(250.0) ++             // 4ns period --> 250 MHz freq
+  new chipyard.config.WithSystemBusFrequency(250.0) ++
+  new chipyard.config.WithMemoryBusFrequency(250.0) ++
+  new chipyard.config.WithPeripheryBusFrequency(250.0) ++
   new chipyard.config.AbstractConfig)
 
 
