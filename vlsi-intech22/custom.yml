@@ -46,7 +46,7 @@ power.inputs:
   level: "rtl"
   waveforms: []
   report_configs:
-    - waveform_path: output/chipyard.harness.TestHarness.EnergyCharChuttleConfig/towers.fsdb
-      report_name: towers
+    - waveform_path: output/chipyard.harness.TestHarness.EnergyCharShuttleConfig/towers.fsdb
+      report_name: /bwrcq/scratch/nayiri/energy/rocket-energychar/out/joules/EnergyCharShuttleConfig/towers
       output_formats:
       - report

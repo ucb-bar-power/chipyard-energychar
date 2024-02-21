@@ -37,7 +37,7 @@ import testchipip._
 
 class EnergyCharRocketConfigCG extends Config(
   new WithClockGating ++ 
-  new WithNEnergyCharCores(1) ++                                        // single rocket-core
+  new WithNEnergyCharCores(btb=None) ++                                        // single rocket-core
   new chipyard.config.WithTileFrequency(66.66666666667) ++              // 15ns period --> 67 MHz freq
   new chipyard.config.WithSystemBusFrequency(66.66666666667) ++         //    include many digits so that 1/f rounds to exactly 15.0ns
   new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++
@@ -45,7 +45,15 @@ class EnergyCharRocketConfigCG extends Config(
   new chipyard.config.AbstractConfig)
 
 class EnergyCharRocketConfig extends Config(
-  new WithNEnergyCharCores(1) ++         // single rocket-core
+  new WithNEnergyCharCores(btb=None) ++         // single rocket-core
+  new chipyard.config.WithTileFrequency(66.66666666667) ++
+  new chipyard.config.WithSystemBusFrequency(66.66666666667) ++
+  new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++
+  new chipyard.config.WithPeripheryBusFrequency(66.66666666667) ++
+  new chipyard.config.AbstractConfig)
+
+class EnergyCharRocketConfigBTB extends Config(
+  new WithNEnergyCharCores ++         // single rocket-core
   new chipyard.config.WithTileFrequency(66.66666666667) ++
   new chipyard.config.WithSystemBusFrequency(66.66666666667) ++
   new chipyard.config.WithMemoryBusFrequency(66.66666666667) ++
@@ -53,9 +61,10 @@ class EnergyCharRocketConfig extends Config(
   new chipyard.config.AbstractConfig)
 
 class WithNEnergyCharCores(
-  n: Int,
+  n: Int = 1,
   overrideIdOffset: Option[Int] = None,
-  crossing: RocketCrossingParams = RocketCrossingParams()
+  crossing: RocketCrossingParams = RocketCrossingParams(),
+  btb: Option[BTBParams] = Some(BTBParams())
 ) extends Config((site, here, up) => {
   case TilesLocated(InSubsystem) => {
     val prev = up(TilesLocated(InSubsystem), site)
@@ -68,7 +77,7 @@ class WithNEnergyCharCores(
           mulEarlyOut = true,
           divEarlyOut = true)
         )),
-      btb = None,
+      btb = btb,
       dcache = Some(DCacheParams(
         rowBits = site(SystemBusKey).beatBits,
         nMSHRs = 0,
