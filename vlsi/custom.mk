@@ -23,5 +23,6 @@ OUTFILE ?= $(output_dir)/$(binary_name).out
 sim-rtl-out:
 	set -o pipefail &&  $(sim) +permissive +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles)  +ntb_random_seed_automatic +verbose +loadmem=$(BINARY) +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
 
+WAVEFORM_PATH ?= $(call get_sim_out_name,$(BINARY))
 sim-rtl-debug-out:
-	set -o pipefail &&  $(sim) +permissive +verbose $(call get_waveform_flag,$(call get_sim_out_name,$(BINARY))) +loadmem=$(BINARY) +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles) +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
+	set -o pipefail &&  $(sim) +permissive +verbose $(call get_waveform_flag,$(WAVEFORM_PATH)) +loadmem=$(BINARY) +dramsim +dramsim_ini_dir=$(vlsi_dir)/../generators/testchipip/src/main/resources/dramsim2_ini +max-cycles=$(timeout_cycles) +permissive-off $(BINARY) </dev/null 2> >(spike-dasm > $(OUTFILE)) | tee $(output_dir)/$(binary_name).log
